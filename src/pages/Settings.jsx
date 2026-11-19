@@ -62,6 +62,12 @@ export default function Settings() {
               <Switch label="Reduzir animações" checked={prefs.reduceMotion} onChange={update("reduceMotion")} />
             </div>
           </li>
+          <li>
+            <div className="item">
+              <span className="grow"><strong>Exibição para daltonismo</strong><small>Usa padrões e símbolos além das cores para indicar o risco</small></span>
+              <Switch label="Exibição para daltonismo" checked={prefs.colorBlindMode} onChange={update("colorBlindMode")} />
+            </div>
+          </li>
         </ul>
         <p className="muted small" style={{ marginTop: 8 }}>Preferências de acessibilidade salvas neste dispositivo.</p>
       </section>

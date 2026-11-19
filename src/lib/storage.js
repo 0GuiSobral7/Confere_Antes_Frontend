@@ -29,6 +29,7 @@ const DEFAULT_SETTINGS = {
   fontSize: "normal",
   highContrast: false,
   reduceMotion: false,
+  colorBlindMode: false,
 };
 export const settingsStore = {
   get: (email) => ({ ...DEFAULT_SETTINGS, ...read(`ca:settings:${scope(email)}`, {}) }),

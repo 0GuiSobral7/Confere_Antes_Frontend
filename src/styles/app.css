@@ -134,6 +134,28 @@ html[data-high-contrast="true"] .btn,
 html[data-high-contrast="true"] .send { background: #800000; border-color: #800000; color: #fff; }
 html[data-high-contrast="true"] .btn--outline { background: #fff; color: #700000; }
 html[data-high-contrast="true"] :focus-visible { outline-color: #000; outline-width: 4px; }
+html[data-color-blind="true"] {
+  --red: #005a8b; --red-bright: #0072b2; --red-soft: #e6f2f8; --red-ink: #003b5c;
+  --amber-soft: #fff0cc; --amber-ink: #5c3b00;
+  --green-soft: #e6f2f8; --green-ink: #003b5c;
+  --muted: #4b4b4b; --line: #d5d5d5; --field: #5b5b5b;
+}
+html[data-color-blind="true"] .chip { display: inline-flex; align-items: center; gap: 5px; border: 2px solid currentColor; }
+html[data-color-blind="true"] .chip::before { font-weight: 900; }
+html[data-color-blind="true"] .chip--low { background: #e8f1f8; color: #064b78; }
+html[data-color-blind="true"] .chip--low::before { content: "✓"; }
+html[data-color-blind="true"] .chip--medium { background: repeating-linear-gradient(135deg, #fff 0 5px, #f3e5c4 5px 8px); color: #573600; }
+html[data-color-blind="true"] .chip--medium::before { content: "!"; }
+html[data-color-blind="true"] .chip--high { background: repeating-linear-gradient(90deg, #fff 0 5px, #f4d8c9 5px 8px); color: #702900; }
+html[data-color-blind="true"] .chip--high::before { content: "▲"; }
+html[data-color-blind="true"] .chip--critical { background: repeating-linear-gradient(45deg, #fff 0 4px, #e1d3eb 4px 7px); color: #45205f; }
+html[data-color-blind="true"] .chip--critical::before { content: "‼"; }
+html[data-color-blind="true"] .chip--low { background: repeating-linear-gradient(0deg, #fff 0 7px, #e2eef5 7px 10px); }
+html[data-color-blind="true"] .meter { border: 1px solid #222; }
+html[data-color-blind="true"] .meter--low > div { background: repeating-linear-gradient(135deg, #064b78 0 5px, #fff 5px 7px); }
+html[data-color-blind="true"] .meter--medium > div { background: repeating-linear-gradient(90deg, #815400 0 4px, #fff 4px 6px); }
+html[data-color-blind="true"] .meter--high > div { background: repeating-linear-gradient(0deg, #9a3d08 0 3px, #fff 3px 5px); }
+html[data-color-blind="true"] .meter--critical > div { background: repeating-linear-gradient(45deg, #562777 0 4px, #fff 4px 6px); }
 html[data-reduce-motion="true"] *,
 html[data-reduce-motion="true"] *::before,
 html[data-reduce-motion="true"] *::after {

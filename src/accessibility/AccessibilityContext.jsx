@@ -3,7 +3,7 @@ import { useAuth } from "../auth/AuthContext.jsx";
 import { settingsStore } from "../lib/storage.js";
 
 const AccessibilityContext = createContext(null);
-const DEFAULTS = { fontSize: "normal", highContrast: false, reduceMotion: false };
+const DEFAULTS = { fontSize: "normal", highContrast: false, reduceMotion: false, colorBlindMode: false };
 
 export function AccessibilityProvider({ children }) {
   const { user } = useAuth();
@@ -18,7 +18,8 @@ export function AccessibilityProvider({ children }) {
     root.dataset.fontSize = prefs.fontSize;
     root.dataset.highContrast = String(prefs.highContrast);
     root.dataset.reduceMotion = String(prefs.reduceMotion);
-  }, [prefs.fontSize, prefs.highContrast, prefs.reduceMotion]);
+    root.dataset.colorBlind = String(prefs.colorBlindMode);
+  }, [prefs.fontSize, prefs.highContrast, prefs.reduceMotion, prefs.colorBlindMode]);
 
   const update = useCallback((key) => (value) => {
     setPrefs((current) => {
