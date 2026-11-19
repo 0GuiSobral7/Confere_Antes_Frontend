@@ -1,18 +1,32 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { DEMO_MODE } from "../config.js";
 import { authApi, usersApi } from "../lib/api.js";
 import { onUnauthorized, tokenStore } from "../lib/http.js";
 
 const AuthContext = createContext(null);
+const DEMO_TOKEN = "local-demo-session";
+const DEMO_USER = {
+  id: "demo",
+  username: "Visitante",
+  email: "demo@confereantes.local",
+  phone: null,
+  createdAt: "2026-01-01T00:00:00Z",
+};
 
 export function AuthProvider({ children }) {
-  const [state, setState] = useState(() => ({
-    status: tokenStore.get() ? "loading" : "anonymous", // loading | authenticated | anonymous
-    user: null,
-  }));
+  const [state, setState] = useState(() => {
+    const token = tokenStore.get();
+    const isDemoSession = DEMO_MODE && token === DEMO_TOKEN;
+    return {
+      status: isDemoSession ? "authenticated" : token ? "loading" : "anonymous",
+      user: isDemoSession ? DEMO_USER : null,
+    };
+  });
 
   // Restaura a sessão se houver token guardado.
   useEffect(() => {
-    if (!tokenStore.get()) return undefined;
+    const token = tokenStore.get();
+    if (!token || (DEMO_MODE && token === DEMO_TOKEN)) return undefined;
     let cancelled = false;
     usersApi
       .me()
@@ -40,12 +54,18 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  const loginDemo = useCallback(() => {
+    if (!DEMO_MODE) throw new Error("O modo de demonstração está desativado.");
+    tokenStore.set(DEMO_TOKEN);
+    setState({ status: "authenticated", user: DEMO_USER });
+  }, []);
+
   const logout = useCallback(() => {
     tokenStore.set(null);
     setState({ status: "anonymous", user: null });
   }, []);
 
-  const value = useMemo(() => ({ ...state, login, logout }), [state, login, logout]);
+  const value = useMemo(() => ({ ...state, login, loginDemo, logout }), [state, login, loginDemo, logout]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

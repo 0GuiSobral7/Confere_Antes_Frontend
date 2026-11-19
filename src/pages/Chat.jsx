@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
 import BottomNav from "../components/BottomNav.jsx";
 import Icon from "../components/Icon.jsx";
+import { DEMO_MODE } from "../config.js";
 import { RiskChip, RiskMeter } from "../components/Risk.jsx";
 import { alertsApi } from "../lib/api.js";
 import { truncate } from "../lib/format.js";
@@ -143,6 +144,7 @@ export default function Chat() {
 
   return (
     <div className="app">
+      <a className="skip-link" href="#main-content">Pular para a conversa</a>
       <header className="chat-head">
         <Link to="/" className="back" aria-label="Voltar"><Icon name="back" /></Link>
         <div>
@@ -151,7 +153,8 @@ export default function Chat() {
         </div>
       </header>
 
-      <div className="chat-body" role="log" aria-live="polite" aria-label="Conversa">
+      <div className="chat-body" id="main-content" tabIndex="-1" role="log" aria-live="polite" aria-label="Conversa">
+        {DEMO_MODE && <p className="notice small" role="status">Demonstração local: a conversa e a análise são simuladas.</p>}
         {loading && <p className="muted" role="status">Carregando conversa…</p>}
         {messages.map((m) => (
           <div key={m.id} className={`bubble bubble--${m.from}`}>

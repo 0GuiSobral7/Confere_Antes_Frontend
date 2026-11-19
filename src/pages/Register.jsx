@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
 import Field from "../components/Field.jsx";
 import Icon from "../components/Icon.jsx";
+import { DEMO_MODE } from "../config.js";
 import { usersApi } from "../lib/api.js";
 
 export default function Register() {
@@ -43,13 +44,21 @@ export default function Register() {
 
   return (
     <div className="app">
+      <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
       <div className="scroll">
         <header className="hero hero--login">
           <div className="logo"><Icon name="shield" size={34} /></div>
           <h1 className="hero__title">Criar conta</h1>
           <p>Leva menos de um minuto.</p>
         </header>
-        <main className="content content--login">
+        <main className="content content--login" id="main-content" tabIndex="-1">
+          {DEMO_MODE ? (
+            <section className="card stack">
+              <h2>Cadastro indisponível na demonstração</h2>
+              <p className="muted">Volte ao login e escolha “Entrar em modo demonstração”. Nenhuma conta real será criada.</p>
+              <Link to="/login" className="btn">Voltar ao login</Link>
+            </section>
+          ) : (
           <form className="card stack" onSubmit={onSubmit}>
             <Field label="Nome de usuário" value={form.username} onChange={set("username")} autoComplete="name" required error={fieldErrors.username} />
             <Field label="E-mail" type="email" value={form.email} onChange={set("email")} autoComplete="email" required error={fieldErrors.email} />
@@ -61,6 +70,7 @@ export default function Register() {
             {error && <p className="error" role="alert">{error}</p>}
             <button className="btn" disabled={busy}>{busy ? "Criando…" : "Criar conta"}</button>
           </form>
+          )}
           <p className="muted small center">
             Já tem conta? <Link to="/login" className="link-btn link-btn--inline"><strong>Entrar</strong></Link>
           </p>

@@ -1,8 +1,5 @@
-import { useState } from "react";
-import { useAuth } from "../auth/AuthContext.jsx";
-import Icon from "../components/Icon.jsx";
+import { useAccessibility } from "../accessibility/AccessibilityContext.jsx";
 import Screen from "../components/Screen.jsx";
-import { settingsStore } from "../lib/storage.js";
 
 function Switch({ label, checked, onChange, disabled }) {
   return (
@@ -12,13 +9,7 @@ function Switch({ label, checked, onChange, disabled }) {
 }
 
 export default function Settings() {
-  const { user } = useAuth();
-  const [prefs, setPrefs] = useState(() => settingsStore.get(user.email));
-  const update = (key) => (value) => {
-    const next = { ...prefs, [key]: value };
-    setPrefs(next);
-    settingsStore.set(user.email, next);
-  };
+  const { prefs, update } = useAccessibility();
 
   return (
     <Screen sub="Preferências" title="Configurações">
@@ -45,6 +36,34 @@ export default function Settings() {
           </li>
         </ul>
         <p className="muted small" style={{ marginTop: 8 }}>Preferências salvas neste dispositivo.</p>
+      </section>
+      <section className="card">
+        <h2>Acessibilidade</h2>
+        <ul className="list">
+          <li>
+            <label className="accessibility-select" htmlFor="font-size">
+              <span className="grow"><strong>Tamanho do texto</strong><small>Ajuste a leitura em todas as telas</small></span>
+              <select id="font-size" value={prefs.fontSize} onChange={(event) => update("fontSize")(event.target.value)}>
+                <option value="normal">Padrão</option>
+                <option value="large">Grande</option>
+                <option value="x-large">Muito grande</option>
+              </select>
+            </label>
+          </li>
+          <li>
+            <div className="item">
+              <span className="grow"><strong>Alto contraste</strong><small>Aumenta o contraste de textos e controles</small></span>
+              <Switch label="Alto contraste" checked={prefs.highContrast} onChange={update("highContrast")} />
+            </div>
+          </li>
+          <li>
+            <div className="item">
+              <span className="grow"><strong>Reduzir animações</strong><small>Reduz transições e movimentos da interface</small></span>
+              <Switch label="Reduzir animações" checked={prefs.reduceMotion} onChange={update("reduceMotion")} />
+            </div>
+          </li>
+        </ul>
+        <p className="muted small" style={{ marginTop: 8 }}>Preferências de acessibilidade salvas neste dispositivo.</p>
       </section>
       <section className="card">
         <ul className="list" style={{ marginTop: 0 }}>

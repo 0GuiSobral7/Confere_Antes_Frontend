@@ -23,7 +23,13 @@ export const sessionsStore = {
   },
 };
 
-const DEFAULT_SETTINGS = { alerts: true, shareReports: false };
+const DEFAULT_SETTINGS = {
+  alerts: true,
+  shareReports: false,
+  fontSize: "normal",
+  highContrast: false,
+  reduceMotion: false,
+};
 export const settingsStore = {
   get: (email) => ({ ...DEFAULT_SETTINGS, ...read(`ca:settings:${scope(email)}`, {}) }),
   set: (email, settings) => write(`ca:settings:${scope(email)}`, settings),
